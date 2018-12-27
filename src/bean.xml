@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       			   http://www.springframework.org/schema/beans/spring-beans.xsd
+       			   http://www.springframework.org/schema/aop 
+       			   http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 把客户资源交给spring来管理 -->
+	<bean id="customerService" class="com.wenxuan.learn.service.impl.CustomerServiceImpl"></bean>
+	<!-- 把通知类（增强类）交给spring管理 -->
+	<bean id="logger" class="com.wenxuan.learn.utils.Logger"></bean>
+	
+	<!-- 配置spring aop -->
+	<aop:config>
+		<!-- 配置切面 -->
+		<aop:aspect id="log" ref="logger">
+			<!-- 配置切入点表达式 -->
+			<aop:pointcut id="addLog" expression="execution(* com..*.*())"/>		
+			<!-- 配置前置通知 -->
+			<aop:before method="pringLog" pointcut-ref="addLog"/>
+		</aop:aspect>
+	</aop:config>
+</beans>
